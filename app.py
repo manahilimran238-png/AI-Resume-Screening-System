@@ -25,7 +25,7 @@ import os
 
 @st.cache_data
 def load_data():
-    zip_path = "Resume.zip"
+    zip_path = "Resume.csv.zip"
 
     with zipfile.ZipFile(zip_path, "r") as zip_ref:
         csv_files = [
