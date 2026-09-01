@@ -20,9 +20,26 @@ st.set_page_config(
 # Load Resume Dataset
 # -----------------------------
 
+import zipfile
+import os
+
 @st.cache_data
 def load_data():
-    return pd.read_csv("Resume.csv")
+    zip_path = "Resume.zip"
+
+    with zipfile.ZipFile(zip_path, "r") as zip_ref:
+        csv_files = [
+            file for file in zip_ref.namelist()
+            if file.lower().endswith(".csv")
+        ]
+
+        if not csv_files:
+            raise FileNotFoundError(
+                "No CSV file found inside Resume.zip"
+            )
+
+        with zip_ref.open(csv_files[0]) as file:
+            return pd.read_csv(file)
 
 
 resume_data = load_data()
